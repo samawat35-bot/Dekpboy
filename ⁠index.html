@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dekpboy - แพลตฟอร์มวิเคราะห์ข้อมูลฟุตบอลขั้นสูง</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body {
+            background-color: #0b132b; /* สีกรมท่าเข้มตามธีม */
+            color: #ffffff;
+        }
+        .card-bg {
+            background-color: #1c2541; /* สีเทาเข้ม/กรมท่าสำหรับกล่องข้อมูล */
+        }
+    </style>
+</head>
+<body class="p-4 md:p-8">
+
+    <header class="max-w-6xl mx-auto mb-8 text-center md:text-left">
+        <h1 class="text-4xl font-extrabold tracking-wider text-cyan-4xl" style="color: #4cc9f0;">DEKPBOY</h1>
+        <p class="text-gray-400 text-sm">ระบบจำลองและวิเคราะห์ค่าพลังนักเตะเชิงลึกขั้นสุด (ระบบคะแนนเต็ม 100)</p>
+    </header>
+
+    <main class="max-w-6xl mx-auto grid grid-cols-1 lg:grid-cols-3 gap-8">
+        
+        <section class="card-bg p-6 rounded-2xl shadow-xl border border-slate-700">
+            <h2 class="text-xl font-bold mb-4 flex items-center gap-2 text-cyan-300">
+                👤 โปรไฟล์นักเตะ
+            </h2>
+            
+            <div class="flex flex-col items-center mb-6">
+                <div class="w-32 h-32 rounded-full border-4 border-cyan-500 overflow-hidden mb-3 relative bg-slate-800 flex items-center justify-center">
+                    <img id="profile-preview" src="https://via.placeholder.com/150" alt="นักเตะ" class="w-full h-full object-cover">
+                </div>
+                <label class="cursor-pointer bg-cyan-600 hover:bg-cyan-500 text-xs px-3 py-1.5 rounded-lg font-medium transition">
+                    📁 เปลี่ยนรูปนักเตะ
+                    <input type="file" id="image-upload" accept="image/*" class="hidden" onchange="previewImage(event)">
+                </label>
+            </div>
+
+            <div class="space-y-3 text-sm">
+                <div class="flex justify-between border-b border-slate-700 pb-2">
+                    <span class="text-gray-400">อายุ:</span>
+                    <span class="font-bold">23 ปี</span>
+                </div>
+                <div class="flex justify-between border-b border-slate-700 pb-2">
+                    <span class="text-gray-400">เท้าที่ถนัด:</span>
+                    <span class="font-bold">ขวา <span class="text-xs text-cyan-300">(เท้าไม่ถนัด: 85/100)</span></span>
+                </div>
+                <div class="flex justify-between border-b border-slate-700 pb-2">
+                    <span class="text-gray-400">สัดส่วน:</span>
+                    <span class="font-bold">173 ซม. / 51 กก.</span>
+                </div>
+                <div class="flex justify-between items-center border-b border-slate-700 pb-2">
+                    <span class="text-gray-400">สังกัด:</span>
+                    <span class="flex items-center gap-1 font-bold">
+                        <span class="inline-block w-4 h-4 rounded-full bg-red-600 shadow-[0_0_8px_rgba(239,68,68,0.8)]"></span> Manchester United
+                    </span>
+                </div>
+            </div>
+
+            <h3 class="text-sm font-bold mt-6 mb-3 text-gray-300">ความถนัดตำแหน่งในสนาม (Visual Pitch)</h3>
+            <div class="w-full aspect-[3/4] bg-green-800 rounded-xl p-3 relative border-2 border-white/20 overflow-hidden shadow-inner">
+                <div class="absolute inset-4 border border-white/20 pointer-events-none"></div>
+                <div class="absolute top-4 left-1/2 -translate-x-1/2 w-24 h-12 border-b border-x border-white/20 pointer-events-none"></div>
+                <div class="absolute bottom-4 left-1/2 -translate-x-1/2 w-24 h-12 border-t border-x border-white/20 pointer-events-none"></div>
+                <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-20 h-20 rounded-full border border-white/20 pointer-events-none"></div>
+
+                <div class="absolute top-12 left-1/2 -translate-x-1/2 bg-green-500 text-[10px] font-bold text-black px-2 py-0.5 rounded shadow-lg">ST (92)</div>
+                <div class="absolute top-1/3 left-1/4 bg-green-500 text-[10px] font-bold text-black px-2 py-0.5 rounded shadow-lg">LW (88)</div>
+                <div class="absolute top-1/2 left-1/2 -translate-x-1/2 bg-amber-500 text-[10px] font-bold text-black px-2 py-0.5 rounded shadow-lg">AM (75)</div>
+                <div class="absolute bottom-12 left-1/2 -translate-x-1/2 bg-gray-600 text-[10px] font-bold text-white px-2 py-0.5 rounded shadow-lg">CB (12)</div>
+            </div>
+        </section>
+
+        <section class="card-bg p-6 rounded-2xl shadow-xl border border-slate-700 flex flex-col justify-between">
+            <div>
+                <h2 class="text-xl font-bold mb-4 flex items-center gap-2 text-amber-400">
+                    📈 ดัชนีตลาดซื้อขาย & FFP
+                </h2>
+
+                <div class="space-y-4 mb-6">
+                    <div class="flex items-center gap-2">
+                        <span class="bg-red-500/20 text-red-400 text-xs font-bold px-2.5 py-1 rounded-md border border-red-500/30">[คนสำคัญ]</span>
+                        <span class="text-sm text-gray-300">สถานะนักเตะปัจจุบัน</span>
+                    </div>
+                    <div class="grid grid-cols-2 gap-3 bg-slate-900/60 p-3 rounded-xl border border-slate-800">
+                        <div>
+                            <p class="text-xs text-gray-400">ราคาที่สโมสรต้องการ</p>
+                            <p class="text-lg font-bold text-white">£120M</p>
+                        </div>
+                        <div>
+                            <p class="text-xs text-gray-400">มูลค่าจริงในตลาด</p>
+                            <p class="text-lg font-bold" style="color: #4cc9f0;">£80M</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="border-t border-slate-700 pt-4">
+                    <h3 class="text-sm font-bold mb-3 text-gray-300">📊 แซนด์บ็อกซ์จำลองกฎการเงิน (Sandbox Mode)</h3>
+                    <div class="space-y-3">
+                        <div>
+                            <label class="text-xs text-gray-400 block mb-1">งบประมาณสโมสรคงเหลือ</label>
+                            <p class="text-xl font-extrabold" id="budget-text" style="color: #4cc9f0;">£150,000,000</p>
+                        </div>
+                        
+                        <div class="w-full bg-slate-800 h-4 rounded-full overflow-hidden p-0.5 border border-slate-700">
+                            <div id="ffp-bar" class="bg-green-500 h-full rounded-full transition-all duration-500" style="width: 40%"></div>
+                        </div>
+                        <div class="flex justify-between items-center text-xs">
+                            <span>สถานะกฎการเงิน:</span>
+                            <span id="ffp-status" class="bg-green-500/20 px-2 py-0.5 rounded font-bold" style="color: #4cc9f0;">[ปลอดภัย]</span>
+                        </div>
+
+                        <div class="grid grid-cols-2 gap-2 mt-2">
+                            <button onclick="simulateAction('buy')" class="bg-red-600 hover:bg-red-500 text-xs py-2 rounded-lg font-medium transition">ลองกดซื้อนักเตะใหม่ (-£120M)</button>
+                            <button onclick="simulateAction('sell')" class="bg-emerald-600 hover:bg-emerald-500 text-xs py-2 rounded-lg font-medium transition">ลองกดขายนักเตะเดิม (+£80M)</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="text-center text-xs text-gray-500 mt-6 border-t border-slate-800 pt-4">
+                ออกแบบโดยระบบจัดการโครงสร้าง Dekpboy Engine v1.0
+            </div>
+        </section>
+
+        <section class="card-bg p-6 rounded-2xl shadow-xl border border-slate-700 lg:col-span-1">
+            <h2 class="text-xl font-bold mb-4 flex items-center gap-2 text-purple-400">
+                ⚔️ เปรียบเทียบค่าพลังดิบ (เต็ม 100)
+            </h2>
+            
+            <div class="space-y-4">
+                <div>
+                    <div class="flex justify-between text-xs mb-1">
+                        <span class="text-red-400 font-bold">88</span>
+                        <span class="text-gray-300 font-medium">⚡ ความเร็วและการเคลื่อนที่</span>
+                        <span class="text-blue-400 font-bold">92 ⭐</span>
+                    </div>
+                    <div class="w-full bg-slate-800 h-2 rounded-full flex overflow-hidden">
+                        <div class="bg-red-500 h-full" style="width: 45%"></div>
+                        <div class="bg-blue-500 h-full ml-auto" style="width: 50%"></div>
+                    </div>
+                </div>
+
+                <div>
+                    <div class="flex justify-between text-xs mb-1">
+                        <span class="text-red-400 font-bold">⭐ 95</span>
+                        <span class="text-gray-300 font-medium">🎯 การสร้างโอกาสทอง</span>
+                        <span class="text-blue-400 font-bold">81</span>
+                    </div>
+                    <div class="w-full bg-slate-800 h-2 rounded-full flex overflow-hidden">
+                        <div class="bg-red-500 h-full" style="width: 55%"></div>
+                        <div class="bg-blue-500 h-full ml-auto" style="width: 40%"></div>
+                    </div>
+                </div>
+
+                <div>
+                    <div class="flex justify-between text-xs mb-1">
+                        <span class="text-red-400 font-bold">74</span>
+                        <span class="text-gray-300 font-medium">🛡️ การสกัดบอลขั้นสูง</span>
+                        <span class="text-blue-400 font-bold">76</span>
+                    </div>
+                    <div class="w-full bg-slate-800 h-2 rounded-full flex overflow-hidden">
+                        <div class="bg-red-500 h-full" style="width: 38%"></div>
+                        <div class="bg-blue-500 h-full ml-auto" style="width: 40%"></div>
+                    </div>
+                </div>
+
+                <div>
+                    <div class="flex justify-between text-xs mb-1">
+                        <span class="text-red-400 font-bold">⭐ 91</span>
+                        <span class="text-gray-300 font-medium">🧠 ความนิ่งในเกมใหญ่</span>
+                        <span class="text-blue-400 font-bold">80</span>
+                    </div>
+                    <div class="w-full bg-slate-800 h-2 rounded-full flex overflow-hidden">
+                        <div class="bg-red-500 h-full" style="width: 52%"></div>
+                        <div class="bg-blue-500 h-full ml-auto" style="width: 42%"></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="mt-6 bg-slate-900/40 p-3 rounded-xl border border-slate-800 text-xs text-gray-400">
+                💡 <span class="text-white font-medium">หมายเหตุค่าน้ำหนัก:</span> ระบบคำนวณ Overall Rating จะถูกคำนวณแยกตามตำแหน่งโดยอัตโนมัติ โดยไม่ใช้การเฉลี่ยตรงแบบทั่วไป เพื่อความแม่นยำขั้นสุด
+            </div>
+        </section>
+
+    </main>
+
+    <script>
+        // ฟังก์ชันระบบอัปโหลดและพรีวิวภาพโปรไฟล์นักเตะ
+        function previewImage(event) {
+            const reader = new FileReader();
+            reader.onload = function() {
+                const output = document.getElementById('profile-preview');
+                output.src = reader.result;
+            }
+            reader.readAsDataURL(event.target.files[0]);
+        }
+
+        // ฟังก์ชันระบบคำนวณแซนด์บ็อกซ์ FFP เบื้องต้น
+        let currentBudget = 150000000;
+        function simulateAction(type) {
+            const budgetText = document.getElementById('budget-text');
+            const ffpBar = document.getElementById('ffp-bar');
+            const ffpStatus = document.getElementById('ffp-status');
+
+            if (type === 'buy') {
+                currentBudget -= 120000000;
+            } else if (type === 'sell') {
+                currentBudget += 80000000;
+            }
+
+            // แสดงผลตัวเลข
+            budgetText.innerText = "£" + currentBudget.toLocaleString();
+
+            // คำนวณและอัปเดตแถบ FFP ปลอดภัย/ผิดกฎ
+            if (currentBudget < 50000000) {
+                ffpBar.style.width = "95%";
+                ffpBar.className = "bg-red-500 h-full rounded-full transition-all duration-500";
+                ffpStatus.innerText = "[ผิดกฎการเงิน]";
+                ffpStatus.className = "bg-red-500/20 text-red-500 px-2 py-0.5 rounded font-bold";
+            } else {
+                ffpBar.style.width = "40%";
+                ffpBar.className = "bg-green-500 h-full rounded-full transition-all duration-500";
+                ffpStatus.innerText = "[ปลอดภัย]";
+                ffpStatus.className = "bg-green-500/20 text-green-500 px-2 py-0.5 rounded font-bold";
+            }
+        }
+    </script>
+</body>
+</html>
